@@ -33,7 +33,7 @@ getDefensiveStatsfromTeam <- function(team) {
 getOppositionDefStat <- function(team, week) {
 	opponent <- getOpponent(team, week)
 	if (opponent == "BYE") {
-		oppStats <- as.list(rep("NA", 8))
+		oppStats <- as.list(rep(NA, 8))
 	}
 	else {
 		oppStats <- getDefensiveStatsfromTeam(opponent)
