@@ -2,7 +2,6 @@ this.dir <- dirname(sys.frame(1)$ofile)
 source(paste0(this.dir,"/DefensiveStats.R"))
 
 loadWeeklyData <- function() {
-	print(this.dir)
 	week1 <- read.csv(paste0(this.dir, "/Week1Stats.csv"), header = TRUE, sep = ",", stringsAsFactors=FALSE)
 	week2 <- read.csv(paste0(this.dir, "/Week2Stats.csv"), header = TRUE, sep = ",", stringsAsFactors=FALSE)
 	week3 <- read.csv(paste0(this.dir, "/Week3Stats.csv"), header = TRUE, sep = ",", stringsAsFactors=FALSE)
@@ -91,69 +90,75 @@ getDataFrame <- function() {
 	return(df)
 }
 
-plotPassingStats <- function(playerData) {
-	#setWorkingDirectory(playerData)
+plotPassingStats <- function(playerData, oppData) {
+	setWorkingDirectory(playerData)
 	playerName = playerData[1,]$name
 	par(mfrow=c(2,3))
-	plot(playerData$week, playerData$passing_att, main=paste0(playerName, " passing attempts"), xlim=c(1,5), ylim=c(0,70))
+	plot(playerData$week, playerData$passing_att, main=paste0(playerName, " passing attempts"), xlim=c(1,6), ylim=c(0,70))
 	text(playerData$week, playerData$passing_att, playerData$passing_att, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$passing_cmp, main=paste0(playerName, " passing completions"), xlim=c(1,5), ylim=c(0,70))
+	plot(playerData$week, playerData$passing_cmp, main=paste0(playerName, " passing completions"), xlim=c(1,6), ylim=c(0,70))
 	text(playerData$week, playerData$passing_cmp, playerData$passing_cmp, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$passing_yds, main=paste0(playerName, " passing yards"), xlim=c(1,5), ylim=c(0,500))
+	plot(playerData$week, playerData$passing_yds, main=paste0(playerName, " passing yards"), xlim=c(1,6), ylim=c(0,500))
 	text(playerData$week, playerData$passing_yds, playerData$passing_yds, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$passing_tds, main=paste0(playerName, " passing TDs"), xlim=c(1,5), ylim=c(0,5))
+	points(oppData$WEEK, oppData$PYDSG, col="red")
+	text(oppData$PYDSG, paste0(oppData$PYDSG,"-",oppData$TEAM), as.character(oppData$TEAM), pos=1, offset=-1, cex=0.7, col="red")
+	plot(playerData$week, playerData$passing_tds, main=paste0(playerName, " passing TDs"), xlim=c(1,6), ylim=c(0,5))
 	text(playerData$week, playerData$passing_tds, playerData$passing_tds, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$passing_ints, main=paste0(playerName, " passing INTs"), xlim=c(1,5), ylim=c(0,5))
+	plot(playerData$week, playerData$passing_ints, main=paste0(playerName, " passing INTs"), xlim=c(1,6), ylim=c(0,5))
 	text(playerData$week, playerData$passing_ints, playerData$passing_ints, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$rushing_yds, main=paste0(playerName, " rushing yards"), xlim=c(1,5), ylim=c(0,100))
+	plot(playerData$week, playerData$rushing_yds, main=paste0(playerName, " rushing yards"), xlim=c(1,6), ylim=c(0,100))
 	text(playerData$week, playerData$rushing_yds, playerData$rushing_yds, pos=1, offset=-1, cex=0.7)
-	#dev.off()
+	dev.off()
 }
 
 
 plotRushingStats <- function(playerData, oppData) {
-	#setWorkingDirectory(playerData)
+	setWorkingDirectory(playerData)
 	playerName = playerData[1,]$name
 	par(mfrow=c(2,3))
-	plot(playerData$week, playerData$rushing_att, main=paste0(playerName, " rushing attempts"), xlim=c(1,5), ylim=c(0,30))
+	plot(playerData$week, playerData$rushing_att, main=paste0(playerName, " rushing attempts"), xlim=c(1,6), ylim=c(0,30))
 	text(playerData$week, playerData$rushing_att, playerData$rushing_att, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$rushing_yds, main=paste0(playerName, " rushing yards"), xlim=c(1,5), ylim=c(0,250))
+	plot(playerData$week, playerData$rushing_yds, main=paste0(playerName, " rushing yards"), xlim=c(1,6), ylim=c(0,250))
 	text(playerData$week, playerData$rushing_yds, playerData$rushing_yds, pos=1, offset=-1, cex=0.7)
 	points(oppData$WEEK, oppData$RYDSG, col="red")
 	text(oppData$RYDSG, paste0(oppData$RYDSG,"-",oppData$TEAM), as.character(oppData$TEAM), pos=1, offset=-1, cex=0.7, col="red")
-	plot(playerData$week, playerData$rushing_tds, main=paste0(playerName, " rushing TDs"), xlim=c(1,5), ylim=c(0,5))
+	plot(playerData$week, playerData$rushing_tds, main=paste0(playerName, " rushing TDs"), xlim=c(1,6), ylim=c(0,5))
 	text(playerData$week, playerData$rushing_tds, playerData$rushing_tds, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$receiving_rec, main=paste0(playerName, " receptions"), xlim=c(1,5), ylim=c(0,20))
+	plot(playerData$week, playerData$receiving_rec, main=paste0(playerName, " receptions"), xlim=c(1,6), ylim=c(0,20))
 	text(playerData$week, playerData$receiving_rec, playerData$receiving_rec, pos=1, offset=1, cex=0.7)
-	plot(playerData$week, playerData$receiving_yds, main=paste0(playerName, " receiving yards"), xlim=c(1,5), ylim=c(0,200))
+	plot(playerData$week, playerData$receiving_yds, main=paste0(playerName, " receiving yards"), xlim=c(1,6), ylim=c(0,400))
 	text(playerData$week, playerData$receiving_yds, playerData$receiving_yds, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$receiving_tds, main=paste0(playerName, " receiving TDs"), xlim=c(1,5), ylim=c(0,5))
+	points(oppData$WEEK, oppData$PYDSG, col="red")
+	text(oppData$PYDSG, paste0(oppData$PYDSG,"-",oppData$TEAM), as.character(oppData$TEAM), pos=1, offset=-1, cex=0.7, col="red")
+	plot(playerData$week, playerData$receiving_tds, main=paste0(playerName, " receiving TDs"), xlim=c(1,6), ylim=c(0,5))
 	text(playerData$week, playerData$receiving_tds, playerData$receiving_tds, pos=1, offset=-1, cex=0.7)
-	#dev.off()
+	dev.off()
 }
 
-plotReceivingStats <- function(playerData) {
-	#setWorkingDirectory(playerData)
+plotReceivingStats <- function(playerData, oppData) {
+	setWorkingDirectory(playerData)
 	playerName = playerData[1,]$name
 	par(mfrow=c(1,3))
-	plot(playerData$week, playerData$receiving_rec, main=paste0(playerName, " receptions"), xlim=c(1,5), ylim=c(0,20))
+	plot(playerData$week, playerData$receiving_rec, main=paste0(playerName, " receptions"), xlim=c(1,6), ylim=c(0,20))
 	text(playerData$week, playerData$receiving_rec, playerData$receiving_rec, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$receiving_yds, main=paste0(playerName, " receiving yards"), xlim=c(1,5), ylim=c(0,200))
+	plot(playerData$week, playerData$receiving_yds, main=paste0(playerName, " receiving yards"), xlim=c(1,6), ylim=c(0,400))
 	text(playerData$week, playerData$receiving_yds, playerData$receiving_yds, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$receiving_tds, main=paste0(playerName, " receiving TDs"), xlim=c(1,5), ylim=c(0,5))
+	points(oppData$WEEK, oppData$PYDSG, col="red")
+	text(oppData$PYDSG, paste0(oppData$PYDSG,"-",oppData$TEAM), as.character(oppData$TEAM), pos=1, offset=-1, cex=0.7, col="red")
+	plot(playerData$week, playerData$receiving_tds, main=paste0(playerName, " receiving TDs"), xlim=c(1,6), ylim=c(0,5))
 	text(playerData$week, playerData$receiving_tds, playerData$receiving_tds, pos=1, offset=-1, cex=0.7)
-	#dev.off()
+	dev.off()
 }
 
 plotKickingStats <- function(playerData) {
 	#setWorkingDirectory(playerData)
 	playerName = playerData[1,]$name
 	par(mfrow=c(1,3))
-	plot(playerData$week, playerData$kicking_fga, main=paste0(playerName, " FG Attempts"), xlim=c(1,5), ylim=c(0,8))
+	plot(playerData$week, playerData$kicking_fga, main=paste0(playerName, " FG Attempts"), xlim=c(1,6), ylim=c(0,8))
 	text(playerData$week, playerData$kicking_fga, playerData$kicking_fga, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$kicking_fgm, main=paste0(playerName, " FG Made"), xlim=c(1,5), ylim=c(0,8))
+	plot(playerData$week, playerData$kicking_fgm, main=paste0(playerName, " FG Made"), xlim=c(1,6), ylim=c(0,8))
 	text(playerData$week, playerData$kicking_fgm, playerData$kicking_fgm, pos=1, offset=-1, cex=0.7)
-	plot(playerData$week, playerData$kicking_xpa, main=paste0(playerName, " Extra Point Attempts"), xlim=c(1,5), ylim=c(0,8))
+	plot(playerData$week, playerData$kicking_xpa, main=paste0(playerName, " Extra Point Attempts"), xlim=c(1,6), ylim=c(0,8))
 	text(playerData$week, playerData$kicking_xpa, playerData$kicking_xpa, pos=1, offset=-1, cex=0.7)
 	#dev.off()
 }
@@ -161,14 +166,14 @@ plotKickingStats <- function(playerData) {
 plotPlayer <- function(playerName, team, position) {
 	
 	frame <- getWeeklyDataforPlayer(playerName, position)
-	opponents <- getOpponentStats(team, 5)
+	opponents <- getOpponentStats(team, 6)
 	pos <- frame[1,]$pos
 	if (pos == "QB") {
-		plotPassingStats(frame)
+		plotPassingStats(frame, opponents)
 	} else if (pos == "RB") {
 		plotRushingStats(frame, opponents)
 	} else if (pos == "WR" || pos=="TE") {
-		plotReceivingStats(frame)
+		plotReceivingStats(frame, opponents)
 	} else if (pos == "K") {
 		plotKickingStats(frame)
 	} else {
@@ -195,7 +200,7 @@ setWorkingDirectory <- function(playerData) {
 	playerPos = playerData[1,]$pos
 	teamFilePath <- file.path("/Users","dhvogel","Documents","NFL","TeamData",playerTeam)
 	posFilePath <- file.path("/Users","dhvogel","Documents","NFL","TeamData",playerTeam, playerPos)
-	print(posFilePath)
+	print(file.path("/Users","dhvogel","Documents","NFL","TeamData",playerTeam, playerPos))
 	dir.create(teamFilePath)
 	dir.create(posFilePath)
 	setwd(posFilePath)
